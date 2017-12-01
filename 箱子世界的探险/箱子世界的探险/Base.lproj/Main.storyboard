@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="0rv-5C-PYl">
+                                <rect key="frame" x="0.0" y="607" width="375" height="60"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A5Y-Zd-EQL">
+                                        <rect key="frame" x="0.0" y="0.0" width="94" height="60"/>
+                                        <color key="backgroundColor" red="0.26274509800000001" green="0.56078431370000004" blue="0.85882352939999995" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="左">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="touchLeft:" destination="BYZ-38-t0r" eventType="touchUpInside" id="4ZF-M9-ik6"/>
+                                            <action selector="touchLeft:" destination="BYZ-38-t0r" eventType="touchDown" id="5gd-hF-LLf"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d7r-dx-F6R">
+                                        <rect key="frame" x="94" y="0.0" width="93.5" height="60"/>
+                                        <color key="backgroundColor" red="0.94171839950000003" green="0.97589367630000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <state key="normal" title="后"/>
+                                        <connections>
+                                            <action selector="touchBack:" destination="BYZ-38-t0r" eventType="touchDown" id="VoC-hy-aCM"/>
+                                            <action selector="touchBack:" destination="BYZ-38-t0r" eventType="touchUpInside" id="fFs-l1-Xf1"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BTF-yf-qHY">
+                                        <rect key="frame" x="187.5" y="0.0" width="94" height="60"/>
+                                        <color key="backgroundColor" red="0.0" green="0.4431372549" blue="0.99215686270000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <state key="normal" title="右">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="touchRight:" destination="BYZ-38-t0r" eventType="touchUpInside" id="MKU-jo-tdj"/>
+                                            <action selector="touchRight:" destination="BYZ-38-t0r" eventType="touchDown" id="rKt-WR-l1J"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lXU-KU-whX">
+                                        <rect key="frame" x="281.5" y="0.0" width="93.5" height="60"/>
+                                        <color key="backgroundColor" red="0.94171839950000003" green="0.97589367630000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <state key="normal" title="降"/>
+                                        <connections>
+                                            <action selector="touchDown:" destination="BYZ-38-t0r" eventType="touchUpInside" id="WAR-fB-mka"/>
+                                            <action selector="touchDown:" destination="BYZ-38-t0r" eventType="touchDown" id="eZg-3D-O7h"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="qxW-yg-Xpg"/>
+                                </constraints>
+                            </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OhO-FW-kn4">
+                                <rect key="frame" x="93.5" y="497" width="94" height="60"/>
+                                <color key="backgroundColor" red="0.99215686270000003" green="0.63137254899999995" blue="0.10980392160000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="前"/>
+                                <connections>
+                                    <action selector="touchDownAdvaceBu:" destination="BYZ-38-t0r" eventType="touchDown" id="H2T-fS-OqD"/>
+                                    <action selector="touchDownAdvaceBu:" destination="BYZ-38-t0r" eventType="touchUpInside" id="XQN-zL-TBK"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z1o-5c-LLp">
+                                <rect key="frame" x="281" y="497" width="94" height="60"/>
+                                <color key="backgroundColor" red="0.99215686270000003" green="0.63137254899999995" blue="0.10980392160000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="升">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="touchUpDown:" destination="BYZ-38-t0r" eventType="touchUpInside" id="9Zm-J4-iHd"/>
+                                    <action selector="touchUpDown:" destination="BYZ-38-t0r" eventType="touchDown" id="otr-oq-v6Z"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="z1o-5c-LLp" firstAttribute="height" secondItem="OhO-FW-kn4" secondAttribute="height" id="4vt-Ea-ogR"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="0rv-5C-PYl" secondAttribute="trailing" id="8to-7i-a0j"/>
+                            <constraint firstItem="d7r-dx-F6R" firstAttribute="centerX" secondItem="OhO-FW-kn4" secondAttribute="centerX" id="Ekg-1h-KXe"/>
+                            <constraint firstItem="z1o-5c-LLp" firstAttribute="width" secondItem="OhO-FW-kn4" secondAttribute="width" id="KcT-j2-Mht"/>
+                            <constraint firstItem="lXU-KU-whX" firstAttribute="centerX" secondItem="z1o-5c-LLp" secondAttribute="centerX" id="LyJ-mP-yvO"/>
+                            <constraint firstItem="0rv-5C-PYl" firstAttribute="top" secondItem="OhO-FW-kn4" secondAttribute="bottom" constant="50" id="O6c-VR-T5U"/>
+                            <constraint firstItem="lXU-KU-whX" firstAttribute="width" secondItem="OhO-FW-kn4" secondAttribute="width" id="Tcr-o8-ulM"/>
+                            <constraint firstItem="lXU-KU-whX" firstAttribute="height" secondItem="OhO-FW-kn4" secondAttribute="height" id="ee3-cI-uaM"/>
+                            <constraint firstItem="0rv-5C-PYl" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="jEB-Ek-B5I"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="0rv-5C-PYl" secondAttribute="bottom" id="tuy-dy-VlN"/>
+                            <constraint firstItem="z1o-5c-LLp" firstAttribute="centerY" secondItem="OhO-FW-kn4" secondAttribute="centerY" id="xGY-hA-Gem"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+        </scene>
+    </scenes>
+</document>
