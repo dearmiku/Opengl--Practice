@@ -59,34 +59,37 @@ uniform pointLight  poL[4];
 uniform Spotlight spL;
 
 
-vec3 pointLightDeal(vec3 data){
+vec3 pointLightDeal(){
+    vec3 res = texture(Texture,outTexCoord).rgb;
+    vec3 data = vec3(0.0);
     for (int i = 0; i<4; i++) {
         //环境光
-        vec3 ambient = point_ambientStrength * data;
+        vec3 ambient = point_ambientStrength * res;
 
         //漫反射
         vec3 norm = normalize(outNormal);
         vec3 lightDir = normalize(poL[i].lightPo - FragPo);    //当前顶点 至 光源的的单位向量
         float diff = max(dot(norm,lightDir),0.0);   //光源与法线夹角
-        vec3 diffuse = diff * spL.lightColor*data;
+        vec3 diffuse = diff * spL.lightColor * res *1.5;
 
         //镜面反射
         vec3 viewDir = normalize(viewPo - FragPo);
         vec3 reflectDir = reflect(-lightDir,outNormal);
 
         float spec = pow(max(dot(viewDir, reflectDir),0.0),spL.reflectance);
-        vec3 specular = point_specularStrength * spec * data;
+        vec3 specular = point_specularStrength * spec * res;
 
         float LFDistance = length(poL[i].lightPo - FragPo);
         float lightWeakPara = 1.0/(spL.constant + spL.linear * LFDistance + spL.quadratic * (LFDistance*LFDistance));
 
-        vec3 res = (ambient + diffuse + specular)*lightWeakPara;
-        return res;
+        data += (ambient + diffuse + specular)*lightWeakPara;
     }
+    return data;
 }
 
-vec3 SpotLightDeal(vec3 data){
+vec3 SpotLightDeal(){
 
+    vec3 data = texture(Texture,outTexCoord).rgb;
     //聚光灯切角 (一些复杂的计算操作 应该让CPU做,提高效率,不变的量也建议外部传输,避免重复计算)
     float inCutOff = cos(radians(10.0f));
     float outCutOff = cos(radians(15.0f));
@@ -113,7 +116,7 @@ vec3 SpotLightDeal(vec3 data){
     float lightWeakPara = 1.0/(spL.constant + spL.linear * LFDistance + spL.quadratic * (LFDistance*LFDistance));
 
 
-    float theta = dot(lightDir,normalize(-spL.spotDir));
+    float theta = dot(-lightDir,normalize(spL.spotDir));
     float epsilon  = spL.inCutOff - spL.outCutOff;
     float intensity = clamp((theta - spL.outCutOff)/epsilon,0.0,1.0);
 
@@ -144,9 +147,9 @@ vec3 paralleDeal(vec3 data){
 
 void main(){
     vec3 tex = texture(Texture,outTexCoord).rgb;
-//    tex = paralleDeal(tex);
-//    tex = paralleDeal(tex);
-//    tex = pointLightDeal(tex);
+    tex = paralleDeal(tex);
+    tex += SpotLightDeal();
+    tex += pointLightDeal();
 
     FragColor = vec4(tex,1.0);
 }

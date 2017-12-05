@@ -205,7 +205,7 @@ unsigned int VBO,VAO,lightVAO;
 
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8*sizeof(float), (void*)0);
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8*sizeof(float), (void*)(3*sizeof(float)));
-    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 8*sizeof(float), (void*)(6*sizeof(float)));
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8*sizeof(float), (void*)(6*sizeof(float)));
 
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
@@ -217,7 +217,7 @@ unsigned int VBO,VAO,lightVAO;
     
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8*sizeof(float), (void*)0);
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8*sizeof(float), (void*)(3*sizeof(float)));
-    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 8*sizeof(float), (void*)(6*sizeof(float)));
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8*sizeof(float), (void*)(6*sizeof(float)));
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
     glEnableVertexAttribArray(2);
@@ -225,7 +225,6 @@ unsigned int VBO,VAO,lightVAO;
     //透视
     glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)(self.bounds.size.width/self.bounds.size.height), 0.1f, 800.0f);
     glUniformMatrix4fv(glGetUniformLocation(program, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
-    glUniformMatrix4fv(glGetUniformLocation(lightProgram, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
 
     //平行光
     glUniform3f(glGetUniformLocation(program, "paL.lightDir"),-0.2,-1.0,-0.3);
@@ -255,8 +254,8 @@ unsigned int VBO,VAO,lightVAO;
     glUniform1f(glGetUniformLocation(program, "point_ambientStrength"), 0.05);
     glUniform1f(glGetUniformLocation(program, "point_specularStrength"), 1.0);
 
-    [self render];
-    //[self setupLinker];
+    //[self render];
+    [self setupLinker];
 }
 
 
@@ -267,7 +266,8 @@ unsigned int VBO,VAO,lightVAO;
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glViewport(0, 0, self.frame.size.width, self.frame.size.height);
 
-
+    glUseProgram(program);
+    glBindVertexArray(VAO);
     //观察视角
     float radius = 10.0f;
     float camX = sin(CACurrentMediaTime()) * radius;
@@ -276,29 +276,33 @@ unsigned int VBO,VAO,lightVAO;
     glm::mat4 view = glm::lookAt(viewPo, glm::vec3(0.0,0.0,0.0), glm::vec3(0.0,1.0,0.0));
 
     glUniformMatrix4fv(glGetUniformLocation(program, "view"), 1, GL_FALSE, glm::value_ptr(view));
-    glUniformMatrix4fv(glGetUniformLocation(lightProgram, "view"), 1, GL_FALSE, glm::value_ptr(view));
-
+   
     //聚光源
     glUniform3f(glGetUniformLocation(program, "spL.lightPo"),camX,camX,camZ);
     //聚光源朝向
     glUniform3f(glGetUniformLocation(program, "spL.spotDir"),-camX,-camX,-camZ);
 
-//    glUseProgram(program);
-//    glBindVertexArray(VAO);
-//
-//    for (unsigned int i = 0; i < 10; i++){
-//        glm::mat4 model;
-//        model = glm::translate(model, cubePositions[i]);
-//        float angle = 20.0f * i;
-//        model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
-//        glUniformMatrix4fv(glGetUniformLocation(program, "model"), 1, GL_FALSE, glm::value_ptr(model));
-//        glDrawArrays(GL_TRIANGLES, 0, 36);
-//    }
+ 
+
+    for (unsigned int i = 0; i < 10; i++){
+        glm::mat4 model;
+        model = glm::translate(model, cubePositions[i]);
+        float angle = 20.0f * i;
+        model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
+        glUniformMatrix4fv(glGetUniformLocation(program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+        glDrawArrays(GL_TRIANGLES, 0, 36);
+    }
 
 
     //切换至 光照程序
     glUseProgram(lightProgram); //不能让两个程序对象同事生效
     glBindVertexArray(lightVAO);
+    
+    //对程序对象的同一变量赋值 也需要当前程序对象激活
+    glUniformMatrix4fv(glGetUniformLocation(lightProgram, "view"), 1, GL_FALSE, glm::value_ptr(view));
+    
+    glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)(self.bounds.size.width/self.bounds.size.height), 0.1f, 800.0f);
+    glUniformMatrix4fv(glGetUniformLocation(lightProgram, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
 
     for (unsigned int i = 0; i < 4; i++){
         glm::mat4 model;
