@@ -61,6 +61,7 @@ uniform Spotlight spL;
 
 vec3 pointLightDeal(){
     vec3 res = texture(Texture,outTexCoord).rgb;
+    vec3 spe = texture(specularTexture,outTexCoord).rgb;
     vec3 data = vec3(0.0);
     for (int i = 0; i<4; i++) {
         //环境光
@@ -70,14 +71,14 @@ vec3 pointLightDeal(){
         vec3 norm = normalize(outNormal);
         vec3 lightDir = normalize(poL[i].lightPo - FragPo);    //当前顶点 至 光源的的单位向量
         float diff = max(dot(norm,lightDir),0.0);   //光源与法线夹角
-        vec3 diffuse = diff * spL.lightColor * res *1.5;
+        vec3 diffuse = diff * spL.lightColor * res;
 
         //镜面反射
         vec3 viewDir = normalize(viewPo - FragPo);
         vec3 reflectDir = reflect(-lightDir,outNormal);
 
         float spec = pow(max(dot(viewDir, reflectDir),0.0),spL.reflectance);
-        vec3 specular = point_specularStrength * spec * res;
+        vec3 specular = point_specularStrength * spec * spe;
 
         float LFDistance = length(poL[i].lightPo - FragPo);
         float lightWeakPara = 1.0/(spL.constant + spL.linear * LFDistance + spL.quadratic * (LFDistance*LFDistance));
@@ -90,6 +91,8 @@ vec3 pointLightDeal(){
 vec3 SpotLightDeal(){
 
     vec3 data = texture(Texture,outTexCoord).rgb;
+    vec3 spe = texture(specularTexture,outTexCoord).rgb;
+
     //聚光灯切角 (一些复杂的计算操作 应该让CPU做,提高效率,不变的量也建议外部传输,避免重复计算)
     float inCutOff = cos(radians(10.0f));
     float outCutOff = cos(radians(15.0f));
@@ -110,7 +113,7 @@ vec3 SpotLightDeal(){
     vec3 reflectDir = reflect(-lightDir,outNormal);
 
     float spec = pow(max(dot(viewDir, reflectDir),0.0),spL.reflectance);
-    vec3 specular = spL.specularStrength * spec * data;
+    vec3 specular = spL.specularStrength * spec * spe;
 
     float LFDistance = length(spL.lightPo - FragPo);
     float lightWeakPara = 1.0/(spL.constant + spL.linear * LFDistance + spL.quadratic * (LFDistance*LFDistance));
@@ -130,6 +133,7 @@ vec3 SpotLightDeal(){
 vec3 paralleDeal(vec3 data){
     //平行光方向
     vec3 paraLightDir = normalize(paL.lightDir);
+    vec3 spe = texture(specularTexture,outTexCoord).rgb;
     //漫反射
     vec3 norm = normalize(outNormal);
     float diff = max(dot(norm,paraLightDir),0.0);
@@ -138,7 +142,7 @@ vec3 paralleDeal(vec3 data){
     //平行光版本
     vec3 reflectDir = reflect(-paraLightDir,outNormal);
     float spec = pow(max(dot(paraLightDir, reflectDir),0.0),paL.reflectance);
-    vec3 specular = paL.specularStrength * spec * data;
+    vec3 specular = paL.specularStrength * spec * spe;
 
     vec3 res = paL.ambientStrength*data + diffuse + specular;
     return res;
